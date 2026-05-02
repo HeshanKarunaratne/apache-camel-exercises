@@ -4,6 +4,7 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.support.DefaultMessage;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @author Heshan Karunaratne
  */
 @Component
+@ConditionalOnExpression("${camel.exercises.seda-route.enabled:false}")
 public class SedaRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
