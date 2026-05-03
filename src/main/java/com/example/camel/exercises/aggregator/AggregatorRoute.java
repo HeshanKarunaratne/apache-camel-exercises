@@ -10,7 +10,7 @@ import java.util.Random;
  * @author Heshan Karunaratne
  */
 @Component
-@ConditionalOnExpression("${camel.exercises.aggregator.enabled:true}")
+@ConditionalOnExpression("${camel.exercises.aggregator.enabled:false}")
 public class AggregatorRoute extends RouteBuilder {
     private static final String ORDER_ID = "orderId";
     private final Random random = new Random();
