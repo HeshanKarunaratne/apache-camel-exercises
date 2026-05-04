@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Heshan Karunaratne
  */
 @Component
-@ConditionalOnExpression("${camel.exercises.multicast-route.enabled:true}")
+@ConditionalOnExpression("${camel.exercises.multicast-route.enabled:false}")
 public class MulticastRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
