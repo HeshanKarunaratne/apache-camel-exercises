@@ -8,3 +8,15 @@ spring:
     username: admin
     password: admin
     virtual-host: /
+
+
+dl:
+  kafka:
+    region: us-east-1
+    env: dev
+    domain: crm
+    version: v1
+
+kafka:
+  bootstrap:
+    servers: localhost:9092

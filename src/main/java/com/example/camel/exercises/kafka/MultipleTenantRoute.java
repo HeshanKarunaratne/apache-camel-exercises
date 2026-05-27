@@ -2,6 +2,7 @@ package com.example.camel.exercises.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,23 @@ import java.util.Map;
  * @author Heshan Karunaratne
  */
 @Component
-@ConditionalOnExpression("${camel.exercises.multiple-tenant-kafka.enabled:false}")
+@ConditionalOnExpression("${camel.exercises.multiple-tenant-kafka.enabled:true}")
 public class MultipleTenantRoute extends RouteBuilder {
+    @Value("${dl.kafka.region}")
+    private String region;
+
+    @Value("${dl.kafka.env}")
+    private String env;
+
+    @Value("${dl.kafka.domain}")
+    private String domain;
+
+    @Value("${dl.kafka.version}")
+    private String version;
+
+    @Value("${kafka.bootstrap.servers}")
+    private String brokers;
+
     @Override
     public void configure() throws Exception {
         // REST entry point
@@ -37,18 +53,18 @@ public class MultipleTenantRoute extends RouteBuilder {
                     String country = ((String) json.get("country")).toLowerCase();
                     String topic = String.format(
                             "%s.%s.%s.%s.%s",
-                            "us-east-1",
-                            country.toLowerCase(),
-                            "prod",
-                            "fo-be",
-                            "v1"
+                            region,
+                            country,
+                            env,
+                            domain,
+                            version
                     );
 
                     exchange.getIn().setHeader("kafka.TOPIC", topic);
-                    exchange.getIn().setBody("test body");
+                    exchange.getIn().setBody(body);
                     log.info("Publishing event to topic: {}", topic);
                 })
 
-                .toD("kafka:${header.kafka.TOPIC}?brokers=localhost:9092");
+                .toD("kafka:${header.kafka.TOPIC}?brokers=" + brokers);
     }
 }
